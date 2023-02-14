@@ -119,6 +119,7 @@ function Generatebill()
                   <td className="ordPay">{sum}</td>              
             </tr>
     </table>
+    <td className="billNo"><button className="btn btn-primary pay" data-bs-toggle="modal" data-bs-target="#exampleModal"  >Make Payment</button></td>
             </div>)
 
         /*root.render(
@@ -182,6 +183,28 @@ function Generatebill()
        
         <div className="tableprint" id="tableprint">
 
+        </div>
+        <div className="popup">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Payment</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body payment" id="modal-body">
+        <button className="btn btn-primary paym">Card</button>
+        <button className="btn btn-primary paym">Cash</button>
+        <button className="btn btn-primary paym">UPI</button>
+        <button className="btn btn-primary paym">Wallet</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
         </div>
         
     

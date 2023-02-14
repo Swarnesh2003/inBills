@@ -46,8 +46,14 @@ function Custdashboard()
         </div>
         <div className="main-bar">
             <div className="about">
+                <div className="name">
                 <p>Welcome Back!</p>
                 <h2>{fname}</h2>
+                </div>
+                <div className="wallet">
+                    <p2>Wallet</p2>
+                    <h3>₹5000</h3>
+                </div>
                 
             </div>
             <div className="dashcontent">

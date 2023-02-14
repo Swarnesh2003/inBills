@@ -320,6 +320,19 @@ body{
     margin-right: 5px;
     margin-left: 2px;
 }
+.about{
+    display: flex;
+    flex-direction:row;
+}
+.wallet{
+    background-color:#1B1B1B;
+    width:12%;
+    height:110%;
+    padding:3px;
+    border-radius:5%;
+    padding-left:5px;
+    margin-left:65%;
+}
 .about h1{
     margin-left: 6px;
 }
@@ -355,7 +368,13 @@ body{
     color: white;
     flex-direction: row;
 }
-
+.paym{
+margin:2%;
+}
+.payment{
+    justify-content: center;
+    align-items: center;
+}
 .expnav{
     margin-right:40px;
     margin-left: 10px;

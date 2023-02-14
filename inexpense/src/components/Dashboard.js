@@ -34,9 +34,9 @@ function Dashboard(){
                     <Link to="/dashboard/viewBills"><button><img src=".\images\calendar.png" alt="Bootstrap" />View Bills</button></Link>
                     <Link to="/dashboard/viewOrders"><button><img src=".\images\insurance.png" alt="Bootstrap" />View Orders</button></Link>
                     <Link to="/dashboard/addProducts"><button><img src=".\images\document.png" alt="Bootstrap" />Add Products</button></Link>
-                    {/*<Link to="/dashboard/viewProducts"><button><img src=".\images\investment.png" alt="Bootstrap" />View Products</button></Link>
+                    {/*<Link to="/dashboard/viewProducts"><button><img src=".\images\investment.png" alt="Bootstrap" />View Products</button></Link>*/}
                     <Link to="/dashboard/expense"><button><img src=".\images\analysis.png" alt="Bootstrap" />Analysis</button></Link>
-                    <Link to="/dashboard/Bookings"><button><img src=".\images\task.png" alt="Bootstrap" />Bookings</button></Link>
+                    {/*<Link to="/dashboard/Bookings"><button><img src=".\images\task.png" alt="Bootstrap" />Bookings</button></Link>
                     <Link to="/dashboard/Recharge"><button><img src=".\images\recharge.png" alt="Bootstrap" />Recharge</button></Link>
                     <Link to="/dashboard/Entertainment"><button><img src=".\images\video.png" alt="Bootstrap" />Entertainment</button></Link>
                     */}
@@ -50,11 +50,17 @@ function Dashboard(){
 
             </div>
             <div className="main-bar">
-                <div className="about">
-                    <p>Welcome Back! </p>
-                    <h2>{fname}</h2>
-                    
+            <div className="about">
+                <div className="name">
+                <p>Welcome Back!</p>
+                <h2>{fname}</h2>
                 </div>
+                <div className="wallet">
+                    <p2>Wallet</p2>
+                    <h3>₹5000</h3>
+                </div>
+                
+            </div>
                 <div className="dashcontent">
                     <div id="dashmain">
                         <Outlet />
