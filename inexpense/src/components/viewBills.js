@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from 'react-dom/client';
 import {useEffect, useState } from "react";
 import {Link, Outlet} from "react-router-dom";
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 function Viewbills()
 {
     const [billNo, setBill1]= useState(null)
@@ -10,8 +12,44 @@ function Viewbills()
         console.log(e)
         const root = ReactDOM.createRoot(document.getElementById('modal-body'));
         const val = {billNum1:e};
-            // Simple GET request using fetch
-            fetch('http://localhost:8000/getBill', {
+            axios.post('http://localhost:8000/business/getBill', val)
+                .then(function(response){
+                    console.log(response);
+                    var data= response.data
+                        console.log(data);
+                        var sum=0;
+                        for (let i=0; i<data.length;i++){
+                          sum=sum+data[i].cost;
+                        }
+                        root.render(
+                            <div className="billList">
+                                <table >
+                        <tr>
+                        <th className="prodNum">ProductNo</th>
+                        <th className="prodName">Product Name</th>
+                        <th className="qty">Mrp</th>
+                        <th className="prodCost">Quantity</th>
+                        <th className="prodMrp">Cost</th>
+                    </tr>
+                    {data.map(createCard)}
+                    <tr>
+                          <td className="prodNum"></td>
+                          <td className="prodName"></td>
+                          <td className="custNum"></td>
+                          <td className="ordCost"></td>
+                          <td className="ordPay">----------</td>              
+                    </tr>
+                    <tr>
+                          <td className="prodNum"></td>
+                          <td className="prodName"></td>
+                          <td className="custNum">Total : </td>
+                          <td className="ordCost"></td>
+                          <td className="ordPay">{sum}</td>              
+                    </tr>
+                    </table>
+                            </div>)
+                })
+            /*fetch('http://localhost:8000/getBill', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -51,7 +89,7 @@ function Viewbills()
             </tr>
             </table>
                     </div>)
-            });
+            });*/
         
     }
     function Card(props) {
@@ -107,7 +145,50 @@ function Viewbills()
         const billNum = document.getElementById('billNum').value
         const val = {billNum1:billNum};
             // Simple GET request using fetch
-            fetch('http://localhost:8000/getBill', {
+            axios.post('http://localhost:8000/business/getBill', val)
+            .then(function(response){
+                var data= response.data
+                console.log(data)
+                if(data.length==0){
+                    root.render(<p>No bills found </p>)
+                }
+                else{
+                    var sum=0;
+                for (let i=0; i<data.length;i++){
+                  sum=sum+data[i].cost;
+                }
+                root.render(
+                    <div className="billList">
+                        <h1>{billNum}</h1>
+                        <table >
+                <tr>
+                <th className="prodNum">ProductNo</th>
+                <th className="prodName">Product Name</th>
+                <th className="qty">Mrp</th>
+                <th className="prodCost">Quantity</th>
+                <th className="prodMrp">Cost</th>
+            </tr>
+           {data.map(createCard)}
+            <tr>
+                  <td className="prodNum"></td>
+                  <td className="prodName"></td>
+                  <td className="custNum"></td>
+                  <td className="ordCost"></td>
+                  <td className="ordPay">----------</td>              
+            </tr>
+            <tr>
+                  <td className="prodNum"></td>
+                  <td className="prodName"></td>
+                  <td className="custNum">Total : </td>
+                  <td className="ordCost"></td>
+                  <td className="ordPay">{sum}</td>              
+            </tr>
+            </table>
+                    </div>)
+                }
+                
+            })
+            /*fetch('http://localhost:8000/getBill', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -148,15 +229,35 @@ function Viewbills()
             </tr>
             </table>
                     </div>)
-            });
+            });*/
         
     }
     function getBillUsingNum(){
         const root = ReactDOM.createRoot(document.getElementById('Bill'));
         const billNum = document.getElementById('custNum').value
         const val={custNum1:billNum};
-            // Simple GET request using fetch
-            fetch('http://localhost:8000/getBillUsingNum', {
+            axios.post('http://localhost:8000/business/getBillUsingNum', val)
+                .then(function(response){
+                    var data=response.data
+                    console.log(data);
+              
+                root.render(
+                    <div className="billList">
+                       
+                        <table >
+                <tr>
+                <th className="billNum">Bill Number</th>
+                <th className="billDate">Date</th>
+                <th className="businessId">BusinessId</th>
+                <th className="custNum">Customer</th>
+            </tr>
+            {data.map(createCard1)}
+            
+            </table>
+                    </div>)
+
+                })
+            /*fetch('http://localhost:8000/getBillUsingNum', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -180,7 +281,7 @@ function Viewbills()
             
             </table>
                     </div>)
-            });
+            });*/
         
     }
     function ViewUsingBillNum(){

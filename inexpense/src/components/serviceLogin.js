@@ -1,5 +1,7 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 function Servicelogin()
 {   function redirect(){
     const user1=document.getElementsByClassName('user1')[0].value
@@ -8,7 +10,7 @@ function Servicelogin()
     console.log(user1, pass1)
     const val={user:user1, pass:pass1};
         // Simple GET request using fetch
-        fetch('http://localhost:8000/serviceLogin', {
+        /*fetch('http://localhost:8000/serviceLogin', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
@@ -17,7 +19,12 @@ function Servicelogin()
         }).then(response=>response.json())
         .then(data => {
             location.replace('/serviceDashboard')
-        });
+        });*/
+        axios.post('http://localhost:8000/services/serviceLogin', val)
+            .then(function(response){
+                location.replace('/serviceDashboard')
+            })
+            
 
     }
     return(

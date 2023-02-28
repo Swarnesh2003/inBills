@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from 'react-dom/client';
 import {useEffect, useState } from "react";
 import {Link, Outlet} from "react-router-dom";
-
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 function Custviewbills(){
     const [billNo, setBill1]= useState(null)
     function setBill(e){
@@ -11,7 +12,7 @@ function Custviewbills(){
         const root = ReactDOM.createRoot(document.getElementById('modal-body'));
         const val = {billNum1:e};
             // Simple GET request using fetch
-            fetch('http://localhost:8000/getBill', {
+            /*fetch('http://localhost:8000/getBill', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -19,6 +20,46 @@ function Custviewbills(){
                 body: JSON.stringify(val),
             }).then(response=>response.json())
             .then(data => {
+              console.log(data);
+              console.log(data[0].cost)
+              var sum=0;
+              for (let i=0; i<data.length;i++){
+                sum=sum+data[i].cost;
+              }
+              console.log(sum)
+              root.render(
+                  <div className="billList">
+                      <table >
+              <tr>
+              <th className="prodNum">ProductNo</th>
+              <th className="prodName">Product Name</th>
+              <th className="qty">Mrp</th>
+              <th className="prodCost">Quantity</th>
+              <th className="prodMrp">Cost</th>
+          </tr>
+          {data.map(createCard)}
+          <tr>
+                <td className="prodNum"></td>
+                <td className="prodName"></td>
+                <td className="custNum"></td>
+                <td className="ordCost"></td>
+                <td className="ordPay">----------</td>              
+          </tr>
+          <tr>
+                <td className="prodNum"></td>
+                <td className="prodName"></td>
+                <td className="custNum">Total : </td>
+                <td className="ordCost"></td>
+                <td className="ordPay">{sum}</td>              
+          </tr>
+          </table>
+          
+          </div>
+                  )
+            });*/
+            axios.post('http://localhost:8000/business/getBill', val)
+              .then(function(response){
+                var data=response.data
                 console.log(data);
                 console.log(data[0].cost)
                 var sum=0;
@@ -55,7 +96,7 @@ function Custviewbills(){
             
             </div>
                     )
-            });
+              })
         
     }
     function Card(props) {
@@ -106,7 +147,7 @@ function Custviewbills(){
                 />
             );
       }
-    fetch('http://localhost:8000/getBillforCust')
+   /* fetch('http://localhost:8000/getBillforCust')
                 .then(response => response.json())
                 .then(data => {
                     const root = ReactDOM.createRoot(document.getElementById('billsvbc'));
@@ -125,7 +166,28 @@ function Custviewbills(){
                 
                 </table>
                         </div>)
-                });
+                });*/
+                axios.get('http://localhost:8000/user/getBillforCust')
+                  .then(function(response){
+                    var data=response.data
+                    const root = ReactDOM.createRoot(document.getElementById('billsvbc'));
+                    console.log(data)
+                    root.render(
+                        <div className="billList">
+                            <table >
+                    <tr>
+                    <th className="billNum">Bill Number</th>
+                    <th className="billDate">Date</th>
+                    <th className="businessName">Shop</th>
+                    <th className="businessId">BusinessId</th>
+                    <th className="custNum">Customer</th>
+                </tr>
+                {data.map(createCard1)}
+                
+                </table>
+                        </div>)
+
+                  })
 
     return(
     <div className="viewBillsCust">

@@ -11,7 +11,7 @@ function Custsignup()
         </div>
         <div className="sucontainer2">
             <h2>Customer Registration</h2>
-        <form action="http://localhost:8000/custsignup" method="POST">
+        <form action="http://localhost:8000/user/custsignup" method="POST">
             <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12"><input type="text" name="first_name" className="fname" placeholder="First Name"></input></div>
                 <div className="col-lg-6 col-md-6 col-sm-12"> <input type="text" name="last_name"  className="lname" placeholder="Last Name"></input></div>

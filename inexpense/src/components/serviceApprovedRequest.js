@@ -2,6 +2,8 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
+axios.defaults.withCredentials = true
 function Serviceapprovedrequest()
 {
   useEffect(()=>{tableRender()},[])
@@ -52,7 +54,7 @@ function Serviceapprovedrequest()
             );
       }
     function tableRender(){
-        return(fetch('http://localhost:8000/servicesAppRequest')
+        return(/*fetch('http://localhost:8000/servicesAppRequest')
                 .then(response => response.json())
                 .then(data => {
                     const root1 = ReactDOM.createRoot(document.getElementById('arContent'));
@@ -72,7 +74,30 @@ function Serviceapprovedrequest()
                 {data.map(createCard1)}
                 
                 </table>
-                        </div>) })
+                        </div>) })*/
+                        axios.get('http://localhost:8000/services/servicesAppRequest')
+                          .then(function(response){
+                            var data=response.data
+                            const root1 = ReactDOM.createRoot(document.getElementById('arContent'));
+                            console.log(data)
+                            root1.render(
+                                <div className="reqList">
+                                    <table >
+                            <tr>
+                            <th className="reqId">Request ID</th>
+                            <th className="CustName">Customer</th>
+                            <th className="CustName">Customer Contact</th>
+                            <th className="pt">Payment Total</th>
+                            <th className="pd">Payment Done</th>
+                            <th className="acceptReq">Request</th>
+                            <th className="ignoreReq">Response</th>
+                        </tr>
+                        {data.map(createCard1)}
+                        
+                        </table>
+                                </div>)
+
+                          })
                         )
  }
     return(

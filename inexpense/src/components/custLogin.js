@@ -1,5 +1,7 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 function Custlogin()
 {    
     
@@ -9,17 +11,10 @@ function redirect(){
     
     console.log(user1, pass1)
     const val={user:user1, pass:pass1};
-        // Simple GET request using fetch
-        fetch('http://localhost:8000/custlogin', {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(val),
-        }).then(response=>response.json())
-        .then(data => {
+        axios.post('http://localhost:8000/user/custlogin', val)
+        .then(function(response){
             location.replace('/custDashboard')
-        });
+        })
 
     }
     return(

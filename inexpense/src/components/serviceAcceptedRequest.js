@@ -2,6 +2,8 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
+axios.defaults.withCredentials = true
 function Serviceacceptedrequest()
 {
     useEffect(()=>{tableRender()},[])
@@ -38,7 +40,7 @@ function Serviceacceptedrequest()
             );
       }
     function tableRender(){
-        return(fetch('http://localhost:8000/servicesAccRequest')
+        return(/*fetch('http://localhost:8000/servicesAccRequest')
                 .then(response => response.json())
                 .then(data => {
                     const root1 = ReactDOM.createRoot(document.getElementById('arContent'));
@@ -57,7 +59,29 @@ function Serviceacceptedrequest()
                 {data.map(createCard1)}
                 
                 </table>
-                        </div>) })
+                        </div>) })*/
+                axios.get('http://localhost:8000/services/servicesAccRequest')
+                      .then(function(response){
+                        var data=response.data
+                        const root1 = ReactDOM.createRoot(document.getElementById('arContent'));
+                    console.log(data)
+                    root1.render(
+                        <div className="reqList">
+                            <table >
+                    <tr>
+                    <th className="reqId">Request ID</th>
+                    <th className="respDate">Response Date</th>
+                    <th className="CustName">Customer</th>
+                    <th className="resStatus">Status</th>
+                    <th className="acceptReq">Request</th>
+                    <th className="ignoreReq">Response</th>
+                </tr>
+                {data.map(createCard1)}
+                
+                </table>
+                        </div>) 
+
+                      })
                         )
  }
     return(

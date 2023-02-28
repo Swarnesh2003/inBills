@@ -1,5 +1,6 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
+
 function Servicesignup()
 {
     return(
@@ -11,7 +12,7 @@ function Servicesignup()
         </div>
         <div className="sucontainer2">
             <h2>Service Registration</h2>
-        <form action="http://localhost:8000/servicesignup" method="POST">
+        <form action="http://localhost:8000/services/servicesignup" method="POST">
             <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12"><input type="text" name="serviceName" className="fname" placeholder="Service Name"></input></div>
                 <div className="col-lg-6 col-md-6 col-sm-12"> <input type="text" name="serviceCategory"  className="lname" placeholder="Service Category"></input></div>

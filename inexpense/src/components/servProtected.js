@@ -1,19 +1,27 @@
 import React from 'react'
 import {useEffect, useState } from "react";
 import {Navigate, resolvePath} from 'react-router-dom'
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+import swal from 'sweetalert';
 function Serviceprotected({children}){
     const [log, setData]= useState(null);
     useEffect(()=>{
-        fetch("http://localhost:8000/getServiceDet")
-        .then((resp)=>resp.json())
-        .then((data)=>{
+        axios.get('http://localhost:8000/services/getServiceDet')
+        .then(function(response){
+            var data=response.data
             setData(data.message);
-        });
+
+        })
     }, []);
+    
     if(log==='false')
     {
         console.log("came inside")
-        window.alert("Incorrect password")
+        swal({
+            text: "Incorrect Credentials!",
+            icon: "error",
+          });
         return <Navigate to ="/serviceLogin" replace />
     }
     else if(log==='nouser')

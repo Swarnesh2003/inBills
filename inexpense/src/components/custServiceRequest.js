@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 
-
-//import axios from 'axios';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
+import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -22,7 +23,7 @@ function Custrequest()
 
         const val={Category:pass1, reqdetail:pass2 ,date:pass3};
         console.log(val)
-          fetch('http://localhost:8000/hello', {
+          /*fetch('http://localhost:8000/hello', {
                         method: 'POST',
                         headers: {
                           "Content-Type": "application/json",
@@ -35,7 +36,22 @@ function Custrequest()
                         document.getElementById('Category').value=""
                         document.getElementById('reqdetail').value=""
                             document.getElementById('date').value=""
-                    });
+                    });*/
+                    axios.post('http://localhost:8000/user/hello', val)
+                        .then(function(response){
+                            var data=response.data
+                            console.log(data)
+                            swal({
+                                title: "Service Requested!",
+                                text:"You will get responses from various service providers under Service Responses in Dashboard..",
+                                icon: "success",
+                              });
+                        document.getElementById('Category').value=""
+                        document.getElementById('reqdetail').value=""
+                            document.getElementById('date').value=""
+
+                        })
+
                 }
 return(
       

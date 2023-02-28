@@ -1,5 +1,7 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 function Makeorders()
 {
     function getShops(e){
@@ -9,7 +11,7 @@ function Makeorders()
             const val1={key:val};
         var code=""
         const ele=document.getElementById('shopList')
-        fetch('http://localhost:8000/getLogo', {
+        /*fetch('http://localhost:8000/getLogo', {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
@@ -22,7 +24,17 @@ function Makeorders()
                 code=code+"<button type='button' className='businessLogo' data-bs-toggle='modal' data-bs-target='#exampleModal' value={"+data[i].businessId+"}><img src='"+data[i].logoSource+"' /></button>"
             }
             ele.innerHTML=code;
-        });
+        });*/
+        axios.post('http://localhost:8000/user/getLogo', val1)
+          .then(function(response){
+            var data=response.data
+            console.log(data);
+            for(let i=0;i<data.length;i++){
+                code=code+"<button type='button' className='businessLogo' data-bs-toggle='modal' data-bs-target='#exampleModal' value={"+data[i].businessId+"}><img src='"+data[i].logoSource+"' /></button>"
+            }
+            ele.innerHTML=code;
+          })
+        
         }
         
     }

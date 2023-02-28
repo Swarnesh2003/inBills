@@ -1,31 +1,45 @@
 import React from "react";
-
+import swal from 'sweetalert';
 import ReactDOM from 'react-dom/client';
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 function Dashboard(){
     const [fname, setData]= useState(null);
     const [id, setId]=useState(null);
     useEffect(()=>{
-        fetch("http://localhost:8000/getDet")
-        .then((resp)=>resp.json())
-        .then((data)=>{
-            setData(data.name);
-            setId(data.businessId)
-        });
+
+        axios.get('http://localhost:8000/business/getDet')
+            .then(function(response){
+                var data=response.data
+                setData(data.name);
+                setId(data.businessId)
+            })
     }, []);
     function logout(){
-        fetch("http://localhost:8000/businesslogout")
+        /*fetch("http://localhost:8000/businesslogout")
         .then((resp)=>resp.json())
         .then((data)=>{
             location.replace('/')
-        })
+        })*/
+        swal({
+            text: "Are you sure want to logout?",
+            icon: "warning",
+          })
+.then((value) => {
+    axios.get('http://localhost:8000/business/businesslogout')
+    .then(function(response){
+        location.replace('/')
+    })
+});
+        
     }
     return(
         <div className="dash">
             <div className="sidebar">
                 <div className="sideBrand">
-                    <a className="navbar-brand dashlogo" href="#"><img src=".\images\inbills.png" alt="Bootstrap" width="130" height="40"/></a>
+                    <a className="navbar-brand dashlogo" href="#"><img src=".\images\inbills.png" alt="Bootstrap" width="135" height="50"/></a>
                     
                 </div>
                 <div className="dashbuttons">

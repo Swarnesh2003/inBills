@@ -11,7 +11,7 @@ function Signup(){
         </div>
         <div className="sucontainer2">
             <h2>Business Registration</h2>
-        <form action="http://localhost:8000/signup" method="POST">
+        <form action="http://localhost:8000/business/signup" method="POST">
             <div className="row">
                 <div className="col-lg-6 col-md-6 col-sm-12"><input type="text" name="businessName" className="fname" placeholder="Business Name"></input></div>
                 <div className="col-lg-6 col-md-6 col-sm-12"> <input type="text" name="ownerName"  className="lname" placeholder="Owner Name"></input></div>

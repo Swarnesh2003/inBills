@@ -1,34 +1,32 @@
-export {logged};
 import React from "react";
-import { useState } from "react";
-import {Navigate} from 'react-router-dom'
-let logged1='false'
+import axios from 'axios';
+axios.defaults.withCredentials = true
+import {useEffect, useState } from "react";
 function Login(){
-    const [log, setlog] = useState('false')
+    
     function sendInfo(){
         const user1=document.getElementsByClassName('user1')[0].value
         const pass1=document.getElementsByClassName('pw1')[0].value
-        
-        console.log(user1, pass1)
-        const val={user:user1, pass:pass1};
-            // Simple GET request using fetch
-            fetch('http://localhost:8000/data')
-                .then(response => response.json())
-                .then(data => console.log(data.message));
-            fetch('http://localhost:8000/login', {
-                method: 'POST',
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(val),
-            }).then(response=>response.json())
-            .then(data => {
-                logged1=data.message;
-                setlog(logged1)
+            axios.post('http://localhost:8000/business/login',
+            {
+                user: user1,
+                pass: pass1
+            }
+            ).then(function(response){
+                console.log(response)
                 location.replace('/dashboard')
-            });
-
+            })
         }
+        useEffect(()=>{
+            axios.get('http://localhost:8000/business/getDet')
+                .then(function(response){
+                    var data = response.data
+                    if(data.message=='true'){
+                        location.replace('/dashboard')
+                    }
+                })
+        }, []);
+        
     return(
         
         <div className="loginbody">
@@ -57,8 +55,4 @@ function Login(){
     </div>
     );
 }
-function logged(){
-    return logged1;
-}
-console.log(logged1)
 export default Login;

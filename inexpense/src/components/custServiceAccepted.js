@@ -2,6 +2,9 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
+import swal from 'sweetalert';
+axios.defaults.withCredentials = true;
 function Custresponses()
 {
     useEffect(()=>{tableRender()},[])
@@ -12,7 +15,7 @@ function Custresponses()
     }
     function closeRequest(e){
       const val = {reqId:e, status: 'CLS'};
-      fetch('http://localhost:8000/closeRequest', {
+      /*fetch('http://localhost:8000/closeRequest', {
               method: 'POST',
               headers: {
                 "Content-Type": "application/json",
@@ -22,7 +25,15 @@ function Custresponses()
           .then(data  => {
               window.alert(data);
               
-                   });
+                   });*/
+      axios.post('http://localhost:8000/user/closeRequest', val)
+                   .then(function(response){
+                    var data=response.data
+                    swal({
+                      text: data,
+                      icon: "warning",
+                    })
+                   })
   }
     function Card1(props) {
         return (
@@ -33,7 +44,7 @@ function Custresponses()
                   <td className="status">{props.status}</td>
                   <td className="request"><button className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" value={props.request} onClick={(e)=>{setRequest(e.target.value)}}>View Request</button></td>
                   <td className="response"><button className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal" value={props.response} onClick={(e)=>{setRequest(e.target.value)}}>View Response</button></td>
-                 <td className="accept"><button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Make Payment</button></td>
+                 <td className="accept"><button className="btn btn-success" >Make Payment</button></td>
                  <td className="accept"><button className="btn btn-primary"   value={props.reqId} onClick={(e)=>{closeRequest(e.target.value)}}>Close Service</button></td>
 
             </tr>
@@ -53,10 +64,11 @@ function Custresponses()
             );
       }
     function tableRender(){
-        return(fetch('http://localhost:8000/custServicesAccepted')
-                .then(response => response.json())
-                .then(data => {
-                    const root1 = ReactDOM.createRoot(document.getElementById('casContent'));
+        return(
+                axios.get('http://localhost:8000/user/custServicesAccepted')
+                .then(function(response){
+                  var data=response.data
+                  const root1 = ReactDOM.createRoot(document.getElementById('casContent'));
                     console.log(data)
                     root1.render(
                         <div className="reqList">
@@ -74,7 +86,9 @@ function Custresponses()
                 {data.map(createCard1)}
                 
                 </table>
-                        </div>) })
+                        </div>) 
+
+                })
                         )
  }
     return(<div className="custAccServices">

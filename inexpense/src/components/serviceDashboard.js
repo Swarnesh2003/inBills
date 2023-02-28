@@ -1,24 +1,45 @@
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
+import axios from 'axios';
+import swal from 'sweetalert';
+axios.defaults.withCredentials = true
 function Servicedashboard()
 {
     const [fname, setData]= useState(null);
     const [id, setId]=useState(null);
     useEffect(()=>{
-        fetch("http://localhost:8000/getServiceDet")
+        /*fetch("http://localhost:8000/getServiceDet")
         .then((resp)=>resp.json())
         .then((data)=>{
             setData(data.username);
             setId(data.userId)
-        });
+        });*/
+        axios.get('http://localhost:8000/services/getServiceDet')
+            .then(function(response){
+                var data=response.data
+                setData(data.username);
+                setId(data.userId)
+
+            })
+        
     }, []);
     function logout(){
-        fetch("http://localhost:8000/servicelogout")
+        /*fetch("http://localhost:8000/servicelogout")
         .then((resp)=>resp.json())
         .then((data)=>{
             location.replace('/')
-        })
+        })*/
+        swal({
+            text: "Are you sure want to logout?",
+            icon: "warning",
+          })
+.then((value) => {
+    axios.get('http://localhost:8000/business/businesslogout')
+    .then(function(response){
+        location.replace('/')
+    })
+});
     }
     return(
         <div className="dash">

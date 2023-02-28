@@ -2,6 +2,8 @@ import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {useEffect, useState } from "react";
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 function Custresponses()
 {
     useEffect(()=>{tableRender()},[])
@@ -12,7 +14,7 @@ function Custresponses()
     }
     function accRequest(e){
         const val = {reqId:e, status: 'ACC'};
-        fetch('http://localhost:8000/updateRequest', {
+        /*fetch('http://localhost:8000/updateRequest', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -23,11 +25,19 @@ function Custresponses()
                 console.log(data);
                 tableRender();
                 setRequest('Acceptance sent.. The provider will contact you soon!!')
-                     });
+                     });*/
+          axios.post('http://localhost:8000/user/updateRequest', val)
+                     .then(function(response){
+                      var data=response.data
+                      console.log(data);
+                tableRender();
+                setRequest('Acceptance sent.. The provider will contact you soon!!')
+
+                     })
     }
     function ignRequest(e){
       const val = {reqId:e, status: 'IGN'};
-      fetch('http://localhost:8000/updateRequest', {
+      /*fetch('http://localhost:8000/updateRequest', {
               method: 'POST',
               headers: {
                 "Content-Type": "application/json",
@@ -37,7 +47,12 @@ function Custresponses()
           .then(data  => {
               console.log(data);
               tableRender();
-                   });
+                   });*/
+      axios.post('http://localhost:8000/user/updateRequest', val)
+                   .then(function(response){
+                    var data=response.data
+                    tableRender();
+                   })
   }
     function Card1(props) {
         return (
@@ -67,27 +82,30 @@ function Custresponses()
             );
       }
     function tableRender(){
-        return(fetch('http://localhost:8000/custServicesResponses')
-                .then(response => response.json())
-                .then(data => {
-                    const root1 = ReactDOM.createRoot(document.getElementById('casContent'));
-                    console.log(data)
-                    root1.render(
-                        <div className="reqList">
-                            <table >
-                    <tr>
-                    <th className="reqId">Request ID</th>
-                    <th className="CustName">Provider</th>
-                    <th className="resStatus">Estimate</th>
-                    <th className="acceptReq">Request</th>
-                    <th className="ignoreReq">Response</th>
-                    <th className="accept">Accept</th>
-                    <th className="accept">Ignore</th>
-                </tr>
-                {data.map(createCard1)}
-                
-                </table>
-                        </div>) })
+        return(
+
+                axios.get('http://localhost:8000/user/custServicesResponses')
+                      .then(function(response){
+                        var data=response.data
+                        const root1 = ReactDOM.createRoot(document.getElementById('casContent'));
+                        console.log(data)
+                        root1.render(
+                            <div className="reqList">
+                                <table >
+                        <tr>
+                        <th className="reqId">Request ID</th>
+                        <th className="CustName">Provider</th>
+                        <th className="resStatus">Estimate</th>
+                        <th className="acceptReq">Request</th>
+                        <th className="ignoreReq">Response</th>
+                        <th className="accept">Accept</th>
+                        <th className="accept">Ignore</th>
+                    </tr>
+                    {data.map(createCard1)}
+                    
+                    </table>
+                            </div>)
+                      })
                         )
  }
     return(<div className="custAccServices">
@@ -95,7 +113,7 @@ function Custresponses()
             <h2>Service Responses</h2>
         </div>
         <div className="casContent" id="casContent">
-
+            
         </div>
         <div className="popup">
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

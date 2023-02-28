@@ -2,6 +2,8 @@ import React from "react";
 import {useEffect, useState } from "react";
 import ReactDOM from 'react-dom/client';
 import {Link, Outlet} from "react-router-dom";
+import axios from 'axios';
+axios.defaults.withCredentials = true
 function Serviceviewrequest()
 {
     var reqNum=0
@@ -25,7 +27,7 @@ function Serviceviewrequest()
     }
     function ignRequest(e){
         const val = {reqId:e, status: 'IGN'};
-        fetch('http://localhost:8000/updateRequest', {
+        /*fetch('http://localhost:8000/updateRequest', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -35,7 +37,14 @@ function Serviceviewrequest()
             .then(data  => {
                 console.log(data);
                 tableRender();
-                     });
+                     });*/
+        axios.post('http://localhost:8000/services/updateRequest', val)
+            .then(function(response){
+                var data=response.data
+                console.log(data);
+                tableRender();
+
+            })
     }
     function Card1(props) {
         return (
@@ -64,7 +73,7 @@ function Serviceviewrequest()
             );
       }
       function tableRender(){
-            return(fetch('http://localhost:8000/servicesRequest')
+            return(/*fetch('http://localhost:8000/servicesRequest')
                     .then(response => response.json())
                     .then(data => {
                         const root1 = ReactDOM.createRoot(document.getElementById('vrContent'));
@@ -83,7 +92,29 @@ function Serviceviewrequest()
                     {data.map(createCard1)}
                     
                     </table>
-                            </div>) })
+                            </div>) })*/
+                    axios.get('http://localhost:8000/services/servicesRequest')
+                            .then(function(response){
+                                var data=response.data
+                                const root1 = ReactDOM.createRoot(document.getElementById('vrContent'));
+                        console.log(data)
+                        root1.render(
+                            <div className="reqList">
+                                <table >
+                        <tr>
+                        <th className="reqId">Request ID</th>
+                        <th className="respDate">Response Date</th>
+                        <th className="CustName">Customer</th>
+                        <th className="reqBut">Request</th>
+                        <th className="acceptReq">Accept</th>
+                        <th className="ignoreReq">Ignore Request</th>
+                    </tr>
+                    {data.map(createCard1)}
+                    
+                    </table>
+                            </div>)
+
+                            })
                             )
     
         
@@ -94,7 +125,7 @@ function Serviceviewrequest()
         var servDet=document.getElementById('serviceDet').value
         var servCost=document.getElementById('serviceCost').value
         const val = {resp:servDet, respCost: servCost, reqID: reqNum};
-        fetch('http://localhost:8000/setResponse', {
+        /*fetch('http://localhost:8000/setResponse', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -104,9 +135,15 @@ function Serviceviewrequest()
             .then(data  => {
                 console.log(data);
                 
-                     });
+                     });*/
+        axios.post('http://localhost:8000/services/setResponse', val)
+                     .then(function(response){
+                        var data=response.data
+                        console.log(data);
+
+                     })
         const val1 = {reqId:reqNum, status: 'RESP'};
-        fetch('http://localhost:8000/updateRequest', {
+        /*fetch('http://localhost:8000/updateRequest', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
@@ -116,7 +153,12 @@ function Serviceviewrequest()
             .then(data  => {
                 console.log(data);
                 tableRender();
-                     });
+                     });*/
+        axios.post('http://localhost:8000/services/updateRequest', val1)
+                .then(function(response){
+                    console.log(data);
+                tableRender();
+                })
 
                      const root = ReactDOM.createRoot(document.getElementById('modal-body'));
         root.render(<div className="serviceDetails">
